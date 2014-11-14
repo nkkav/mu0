@@ -333,6 +333,6 @@ You may contact me at:
 References
 ==========
 
-.. [Furber] Steven Furber, ARM System-on-chip Architecture, 2nd edition, Pearson 
+.. [Furber] Stephen Furber, ARM System-on-chip Architecture, 2nd edition, Pearson 
    Education Limited, 2000.
 
