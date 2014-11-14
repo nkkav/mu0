@@ -1,0 +1,87 @@
+; odd_even.mu0
+; Finds even numbers in a list.
+;
+; THIS PROGRAM IS SELF-MODIFYING. However, it will ensure
+; that it resets itself before each run so it doesn't need 
+; reloading.
+;
+; List is from $200 to $240
+; Even numbers copied to list starting at $241
+; 
+; Version 1, 13 October 1994
+;
+; (C) Benjy (Soft Eng A2)
+
+; Start by resetting "indirect" addressing bits
+ACC<= [DEF_GET_SOURCE]
+ACC=> [GET_SOURCE]
+ACC=> [GET_SOURCE_1]
+ACC<= [DEF_PUT_DEST]
+ACC=> [PUT_DEST]
+
+; Main program loop
+.label MAIN_LOOP
+
+; Here is where we get the source number - self modifying
+.label GET_SOURCE
+ACC<= [$200]
+
+; Now check to see if even by subtracting two many times
+.label SUBTRACT_LOOP
+; We must check if done first to ensure that 0 works
+IF+VE PC<= SUBTRACT_NOT_DONE
+PC<= SUBTRACT_DONE
+.label SUBTRACT_NOT_DONE
+ACC- [TWO]
+PC<= SUBTRACT_LOOP
+
+; We now have either -1 (odd) or 0 (even) in ACC.
+.label SUBTRACT_DONE
+IF!=0 PC<= ODD
+
+; The number is even so copy it to the second list
+; This (both commands) are now self modifying
+.label GET_SOURCE_1
+ACC<= [$200]
+.label PUT_DEST
+ACC=> [$241]
+
+; Increment the destination index
+ACC<= [PUT_DEST]
+ACC+ [ONE]
+ACC=> [PUT_DEST]
+
+.label ODD
+; Now (always) increment the source index
+ACC<= [GET_SOURCE]
+ACC+ [ONE]
+ACC=> [GET_SOURCE]
+ACC=> [GET_SOURCE_1]
+
+; And check to see if we've finished
+ACC- [END_GET_SOURCE]
+IF!=0 PC<= MAIN_LOOP
+
+; All Done
+STOP
+
+; Default command to get from source list
+.label DEF_GET_SOURCE
+ACC<= [$200]
+
+; What the GET_SOURCE will be when we finish
+.label END_GET_SOURCE
+ACC<= [$241]
+
+; Default command to write to destination list
+.label DEF_PUT_DEST
+ACC=> [$241]
+
+; Constants
+.label ONE
+.word 1
+.label TWO
+.word 2
+
+; End
+.end

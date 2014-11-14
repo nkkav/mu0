@@ -1,0 +1,10 @@
+Authors of mu0.
+
+mu0          Nikolaos Kavvadias <nikos@nkavvadias.com>
+             Verilog and VHDL IPs, testbenches, scripts,
+             mu0/sw/Makefile
+mu0          benjya (): compile_mu0.c, execute_mu0.c, 
+             original work of mu0-compiler-simulator.rst
+             http://everything2.com/title/MU0
+
+AUTHORS ends here

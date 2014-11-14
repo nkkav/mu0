@@ -1,0 +1,29 @@
+; multiply.mu0
+; Test Program
+; (C) 1994 Benjy
+; Reset A2 (where we store the result)
+ACC<= [ZR]
+ACC=> [$A2]
+; Start the main loop
+.label LOOP
+; Load the result into the accumulator
+ACC<= [$A2]
+; Add the value
+ACC+ [$A0]
+; Store it out in the result
+ACC=> [$A2]
+; Load the multiplier
+ACC<= [$A1]
+; Subtract 1 from it
+ACC- [ONE]
+; Store it out
+ACC=> [$A1]
+; If we haven't got to 0, loop around
+IF!=0 PC<= LOOP
+; Done
+STOP
+.label ZR
+.word 0
+.label ONE
+.word 1
+.end
