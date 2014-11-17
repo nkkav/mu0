@@ -12,11 +12,16 @@
 +-------------------+----------------------------------------------------------+
 | **Website**       | http://www.nkavvadias.com                                |
 +-------------------+----------------------------------------------------------+
-| **Release Date**  | 14 November 2014                                         |
+| **Release Date**  | 17 November 2014                                         |
 +-------------------+----------------------------------------------------------+
-| **Version**       | 0.0.0                                                    |
+| **Version**       | 0.0.1                                                    |
 +-------------------+----------------------------------------------------------+
 | **Rev. history**  |                                                          |
++-------------------+----------------------------------------------------------+
+|        **v0.0.1** | 2014-11-17                                               |
+|                   |                                                          |
+|                   | Added preliminary version of the ArchC model for the     |
+|                   | processor. This models a byte-addressable version of MU0.|
 +-------------------+----------------------------------------------------------+
 |        **v0.0.0** | 2014-11-14                                               |
 |                   |                                                          |
@@ -140,6 +145,20 @@ The ``mu0`` distribution includes the following files:
 | /rtl/vhdl             | RTL VHDL source code directory for ``mu0``           |
 +-----------------------+------------------------------------------------------+
 | mu0_behav.vhd         | Behavioral VHDL model.                               |
++-----------------------+------------------------------------------------------+
+| /sim/archc            | ArchC model files main directory                     |
++-----------------------+------------------------------------------------------+
+| /sim/archc/src        | Source directory for the model files                 |
++-----------------------+------------------------------------------------------+
+| mu0.ac                | Register and memory model for MU0.                   |
++-----------------------+------------------------------------------------------+
+| mu0_isa.ac            | Instruction encodings and assembly formats.          |
++-----------------------+------------------------------------------------------+
+| mu0_isa.cpp           | Instruction behaviors.                               |
++-----------------------+------------------------------------------------------+
+| /sim/archc/test       | Tests subdirectory                                   |
++-----------------------+------------------------------------------------------+
+| \*.hex                | ArchC hexadecimal application files for testing.     |
 +-----------------------+------------------------------------------------------+
 | /sim/rtl_sim          | RTL simulation files directory                       |
 +-----------------------+------------------------------------------------------+
@@ -291,7 +310,84 @@ VCD format. VCD waveforms can be easily viewed using GTKwave.
 | ``$ gtkwave ../out/mu0_behavioral.vcd``
 
 
-4. Prerequisites
+4. ArchC model
+==============
+
+This is the ArchC (http://www.archc.org) functional simulator model for the 
+MU0 processor. For the time being, the architecture is modelled as a 
+byte-addressable, as the careful reader can notice by examining the ArchC 
+hexadecimal applications files that can be found in ``/mu0/sim/archc/tests``.
+If the ``JGE_IS_JGT`` preprocessor directive is set, then the behavior of 
+the jump if positive (``jge``) instruction is altered to convey the meaning of 
+jump if (strictly) larger than zero. There is no concensus about the behavior 
+of this specific instruction, according to various sources on the MU0 processor.
+
+Building the model
+------------------
+
+To generate the interpreted simulator, the ``acsim`` executable is ran::
+
+  $ acsim mu0.ac                      # (create the simulator)
+  $ make -f Makefile.archc            # (compile)
+  $ ./mu0.x --load=<file-path> [args] # (run an application)
+
+There are two formats recognized for application <file-path>:
+
+- ELF binary matching ArchC specifications
+- hexadecimal text file for ArchC, which has currently been tested.
+
+In order to generate the binary utilities port (``binutils`` port), the 
+``acbingen.sh`` driver script must be used. This should be called as follows::
+
+  $ acbingen.sh -amu0 -i`pwd`/../mu0-tools/ mu0.ac
+
+for generating the ``binutils`` port executables. This includes the following 
+tools:
+
+- ``addr2line``
+- ``ar``
+- ``as``
+- ``c++filt``
+- ``ld``
+- ``nm``
+- ``objcopy``
+- ``objdump``
+- ``ranlib``
+- ``readelf``
+- ``size``
+- ``strings``
+- ``strip``
+
+This feature has not yet been tested for the ``mu0`` model.
+
+Alternative assembly syntax
+---------------------------
+The ArchC-based tools support a number of alternative assembly instruction 
+syntaxes for ``mu0``. The following table summarizes the differences between the 
+syntax variations.
+
++-------------+-------------------------------+
+| Instruction | Alternative syntax            |
++-------------+-------------------------------+
+| ``lda``     | ``lda imm``                   |
++-------------+-------------------------------+
+| ``sto``     | ``sto imm``                   |
++-------------+-------------------------------+
+| ``add``     | ``add imm``                   |
++-------------+-------------------------------+
+| ``sub``     | ``sub imm``                   |
++-------------+-------------------------------+
+| ``jmp``     | ``jmp imm``                   |
++-------------+-------------------------------+
+| ``jge``     | ``jge imm``                   |
++-------------+-------------------------------+
+| ``jne``     | ``jne imm``                   |
++-------------+--------------+----------------+
+| ``stp``     | ``stp``      | ``halt``       |
++-------------+--------------+----------------+
+
+
+5. Prerequisites
 ================
 
 - Standard UNIX-based tools (tested with gcc-4.8.1 on MinGW/x86) [optional if 
@@ -316,8 +412,11 @@ VCD format. VCD waveforms can be easily viewed using GTKwave.
 - Alternatively, a commercial simulator like Mentor Modelsim 
   (http://www.model.com) can be used.
 
+- ArchC (http://www.archc.org) installation (tested on Cygwin/Win7-64bit and 
+  Linux) [required only for using the ArchC model]
 
-5. Contact
+
+6. Contact
 ==========
 
 You may contact me at:
@@ -335,4 +434,3 @@ References
 
 .. [Furber] Stephen Furber, ARM System-on-chip Architecture, 2nd edition, Pearson 
    Education Limited, 2000.
-

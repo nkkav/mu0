@@ -1,0 +1,67 @@
+/***************************************************************/
+/*  File       : mu0_isa.ac
+ *  Description: Instruction encodings and assembly formats.
+ *  Author     : Nikolaos Kavvadias <nikos@nkavvadias.com>
+ *
+ *  Copyright (C) 2014 Nikolaos Kavvadias
+ *
+ *  Author affiliation:
+ *    Dr. Nikolaos Kavvadias
+ *    Independent Consultant -- Research Scientist
+ *    Kornarou 12 Rd., Nea Ampliani,
+ *    35100 Lamia, Greece
+ *                                                             
+ *  Contact information for the ArchC team:                     
+ *    The ArchC Team                                              
+ *    Computer Systems Laboratory (LSC)                           
+ *    IC-UNICAMP                                                  
+ *    http://www.lsc.ic.unicamp.br                                
+ */
+/***************************************************************/
+
+AC_ISA(mu0) {
+
+  ac_format Type_I  = "%op:4 %imm:12:s";
+
+  ac_instr<Type_I> lda, sto, add, sub, jmp, jge, jne, stp;
+  
+  ISA_CTOR(mu0) {
+
+    lda.set_asm("acc<= [%imm]", imm);
+    lda.set_asm("lda %imm", imm);
+    lda.set_decoder(op=0x0);
+
+    sto.set_asm("acc>= [%imm]", imm);
+    sto.set_asm("sto %imm", imm);
+    sto.set_decoder(op=0x1);
+
+    add.set_asm("acc+ [%imm]", imm);
+    add.set_asm("add %imm", imm);
+    add.set_decoder(op=0x2);
+
+    sub.set_asm("acc- [%imm]", imm);
+    sub.set_asm("sub %imm", imm);
+    sub.set_decoder(op=0x3);
+
+    jmp.set_asm("pc<= %imm", imm);
+    jmp.set_asm("jmp %exp", imm);
+    jmp.set_asm("jmp %imm", imm);
+    jmp.set_decoder(op=0x4);
+
+    jge.set_asm("if+ve pc<= %imm", imm);
+    jge.set_asm("if>=0 pc<= %imm", imm);
+    jge.set_asm("jge %exp", imm);
+    jge.set_asm("jge %imm", imm);
+    jge.set_decoder(op=0x5);
+
+    jne.set_asm("if!=0 pc<= %imm", imm);
+    jne.set_asm("jne %exp", imm);
+    jne.set_asm("jne %imm", imm);
+    jne.set_decoder(op=0x6);
+
+    stp.set_asm("pc<= pc", imm=0x000);
+    stp.set_asm("stp", imm=0x000);
+    stp.set_asm("halt", imm=0x000);
+    stp.set_decoder(op=0x7);
+  };
+};

@@ -1,0 +1,11 @@
+.text:
+0000 000c    // lda [$0c] (loop1)
+0002 300e    // sub [$0e] 
+0004 100c    // sto [$0c] 
+0006 000c    // lda [$0c] 
+0008 6000    // jne [$00] loop1
+000a 7000    // stp
+.data:
+000c 0004    // address $0c, set to 4
+000e 0001    // address $0e, set to 1
+0010 0000    // address $10, set to 0

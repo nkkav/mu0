@@ -1,0 +1,37 @@
+/***************************************************************/
+/*  File       : mu0.ac
+ *  Description: Storage modules.                         
+ *  Author     : Nikolaos Kavvadias <nikos@nkavvadias.com>
+ *
+ *  Copyright (C) 2014 Nikolaos Kavvadias
+ *
+ *  Author affiliation:
+ *    Dr. Nikolaos Kavvadias
+ *    Independent Consultant -- Research Scientist
+ *    Kornarou 12 Rd., Nea Ampliani,
+ *    35100 Lamia, Greece
+ *                                                             
+ *  Contact information for the ArchC team:                     
+ *    The ArchC Team                                              
+ *    Computer Systems Laboratory (LSC)                           
+ *    IC-UNICAMP                                                  
+ *    http://www.lsc.ic.unicamp.br                                
+ */
+/***************************************************************/
+
+
+AC_ARCH(mu0)
+{
+  ac_mem      MEM:4096;  // data memory
+  ac_reg      PC;        // program counter
+  ac_reg      IR;        // instruction register
+  ac_reg      ACC;       // accumulator
+  ac_reg      CYC;       // cycle counter
+  ac_wordsize 16;
+
+  ARCH_CTOR(mu0) 
+  {
+    ac_isa("mu0_isa.ac");
+    set_endian("big");
+  };
+};

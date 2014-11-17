@@ -361,13 +361,19 @@ MU0 processor)</td>
 <td><a class="reference external" href="http://www.nkavvadias.com">http://www.nkavvadias.com</a></td>
 </tr>
 <tr><td><strong>Release Date</strong></td>
-<td>14 November 2014</td>
+<td>17 November 2014</td>
 </tr>
 <tr><td><strong>Version</strong></td>
-<td>0.0.0</td>
+<td>0.0.1</td>
 </tr>
 <tr><td><strong>Rev. history</strong></td>
 <td>&nbsp;</td>
+</tr>
+<tr><td><strong>v0.0.1</strong></td>
+<td><p class="first">2014-11-17</p>
+<p class="last">Added preliminary version of the ArchC model for the
+processor. This models a byte-addressable version of MU0.</p>
+</td>
 </tr>
 <tr><td><strong>v0.0.0</strong></td>
 <td><p class="first">2014-11-14</p>
@@ -540,6 +546,27 @@ simulator (authored by user <tt class="docutils literal">benjy</tt>).</td>
 </tr>
 <tr><td>mu0_behav.vhd</td>
 <td>Behavioral VHDL model.</td>
+</tr>
+<tr><td>/sim/archc</td>
+<td>ArchC model files main directory</td>
+</tr>
+<tr><td>/sim/archc/src</td>
+<td>Source directory for the model files</td>
+</tr>
+<tr><td>mu0.ac</td>
+<td>Register and memory model for MU0.</td>
+</tr>
+<tr><td>mu0_isa.ac</td>
+<td>Instruction encodings and assembly formats.</td>
+</tr>
+<tr><td>mu0_isa.cpp</td>
+<td>Instruction behaviors.</td>
+</tr>
+<tr><td>/sim/archc/test</td>
+<td>Tests subdirectory</td>
+</tr>
+<tr><td>*.hex</td>
+<td>ArchC hexadecimal application files for testing.</td>
 </tr>
 <tr><td>/sim/rtl_sim</td>
 <td>RTL simulation files directory</td>
@@ -720,8 +747,99 @@ VCD format. VCD waveforms can be easily viewed using GTKwave.</p>
 </div>
 </div>
 </div>
+<div class="section" id="archc-model">
+<h1>4. ArchC model</h1>
+<p>This is the ArchC (<a class="reference external" href="http://www.archc.org">http://www.archc.org</a>) functional simulator model for the
+MU0 processor. For the time being, the architecture is modelled as a
+byte-addressable, as the careful reader can notice by examining the ArchC
+hexadecimal applications files that can be found in <tt class="docutils literal">/mu0/sim/archc/tests</tt>.
+If the <tt class="docutils literal">JGE_IS_JGT</tt> preprocessor directive is set, then the behavior of
+the jump if positive (<tt class="docutils literal">jge</tt>) instruction is altered to convey the meaning of
+jump if (strictly) larger than zero. There is no concensus about the behavior
+of this specific instruction, according to various sources on the MU0 processor.</p>
+<div class="section" id="building-the-model">
+<h2>Building the model</h2>
+<p>To generate the interpreted simulator, the <tt class="docutils literal">acsim</tt> executable is ran:</p>
+<pre class="literal-block">
+$ acsim mu0.ac                      # (create the simulator)
+$ make -f Makefile.archc            # (compile)
+$ ./mu0.x --load=&lt;file-path&gt; [args] # (run an application)
+</pre>
+<p>There are two formats recognized for application &lt;file-path&gt;:</p>
+<ul class="simple">
+<li>ELF binary matching ArchC specifications</li>
+<li>hexadecimal text file for ArchC, which has currently been tested.</li>
+</ul>
+<p>In order to generate the binary utilities port (<tt class="docutils literal">binutils</tt> port), the
+<tt class="docutils literal">acbingen.sh</tt> driver script must be used. This should be called as follows:</p>
+<pre class="literal-block">
+$ acbingen.sh -amu0 -i`pwd`/../mu0-tools/ mu0.ac
+</pre>
+<p>for generating the <tt class="docutils literal">binutils</tt> port executables. This includes the following
+tools:</p>
+<ul class="simple">
+<li><tt class="docutils literal">addr2line</tt></li>
+<li><tt class="docutils literal">ar</tt></li>
+<li><tt class="docutils literal">as</tt></li>
+<li><tt class="docutils literal"><span class="pre">c++filt</span></tt></li>
+<li><tt class="docutils literal">ld</tt></li>
+<li><tt class="docutils literal">nm</tt></li>
+<li><tt class="docutils literal">objcopy</tt></li>
+<li><tt class="docutils literal">objdump</tt></li>
+<li><tt class="docutils literal">ranlib</tt></li>
+<li><tt class="docutils literal">readelf</tt></li>
+<li><tt class="docutils literal">size</tt></li>
+<li><tt class="docutils literal">strings</tt></li>
+<li><tt class="docutils literal">strip</tt></li>
+</ul>
+<p>This feature has not yet been tested for the <tt class="docutils literal">mu0</tt> model.</p>
+</div>
+<div class="section" id="alternative-assembly-syntax">
+<h2>Alternative assembly syntax</h2>
+<p>The ArchC-based tools support a number of alternative assembly instruction
+syntaxes for <tt class="docutils literal">mu0</tt>. The following table summarizes the differences between the
+syntax variations.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="33%" />
+<col width="37%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>Instruction</td>
+<td colspan="2">Alternative syntax</td>
+</tr>
+<tr><td><tt class="docutils literal">lda</tt></td>
+<td colspan="2"><tt class="docutils literal">lda imm</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">sto</tt></td>
+<td colspan="2"><tt class="docutils literal">sto imm</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">add</tt></td>
+<td colspan="2"><tt class="docutils literal">add imm</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">sub</tt></td>
+<td colspan="2"><tt class="docutils literal">sub imm</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">jmp</tt></td>
+<td colspan="2"><tt class="docutils literal">jmp imm</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">jge</tt></td>
+<td colspan="2"><tt class="docutils literal">jge imm</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">jne</tt></td>
+<td colspan="2"><tt class="docutils literal">jne imm</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">stp</tt></td>
+<td><tt class="docutils literal">stp</tt></td>
+<td><tt class="docutils literal">halt</tt></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="section" id="prerequisites">
-<h1>4. Prerequisites</h1>
+<h1>5. Prerequisites</h1>
 <ul>
 <li><p class="first">Standard UNIX-based tools (tested with gcc-4.8.1 on MinGW/x86) [optional if
 you use Modelsim].</p>
@@ -745,10 +863,13 @@ Note that the latest version (0.31) from
 <li><p class="first">Alternatively, a commercial simulator like Mentor Modelsim
 (<a class="reference external" href="http://www.model.com">http://www.model.com</a>) can be used.</p>
 </li>
+<li><p class="first">ArchC (<a class="reference external" href="http://www.archc.org">http://www.archc.org</a>) installation (tested on Cygwin/Win7-64bit and
+Linux) [required only for using the ArchC model]</p>
+</li>
 </ul>
 </div>
 <div class="section" id="contact">
-<h1>5. Contact</h1>
+<h1>6. Contact</h1>
 <p>You may contact me at:</p>
 <div class="line-block">
 <div class="line">Nikolaos Kavvadias &lt;<a class="reference external" href="mailto:nikos&#64;nkavvadias.com">nikos&#64;nkavvadias.com</a>&gt;</div>
