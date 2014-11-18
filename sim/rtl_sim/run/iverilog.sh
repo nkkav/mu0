@@ -9,6 +9,7 @@ ${IVERILOG_PATH}/iverilog -g1995 -o mu0_tb ../../../rtl/verilog/mu0_behav.v \
 ${IVERILOG_PATH}/vvp mu0_tb
 cp -f mu0.vcd mu0_behavioral.vcd
 rm -rf mu0.vcd
+mv mu0_behavioral.vcd ../out
 
 if [ "$SECONDS" -eq 1 ]
 then

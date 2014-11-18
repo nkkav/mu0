@@ -3,6 +3,7 @@
 make -f ../bin/mu0_behav.mk clean
 make -f ../bin/mu0_behav.mk init
 make -f ../bin/mu0_behav.mk run
+mv mu0_behavioral.vcd ../out
 
 if [ "$SECONDS" -eq 1 ]
 then
