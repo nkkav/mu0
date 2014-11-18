@@ -1,0 +1,31 @@
+; test6.mu0
+; Source: http://eng.anu.edu.au/courses/ENGN3213/Documents/CodeSamples/
+;         VERILOG/PROGRAMS
+.label START
+ACC<= [TOTAL]     ; LDA total
+ACC+  [TABLE]     ; ADD Table
+ACC=> [TOTAL]     ; STO total
+ACC<= [ADD_INSTR] ; LDA Add_instr
+ACC+  [ONE]       ; ADD One
+ACC=> [ADD_INSTR] ; STO Add_instr
+ACC<= [COUNT]     ; LDA Count
+ACC-  [ONE]       ; SUB One
+ACC=> [COUNT]     ; STO Count
+IF+VE PC<= START  ; JGE 0
+STOP              ; STP
+.label TOTAL
+.word     0       ; 0000: total
+.label ONE
+.word     1       ; 0001: One
+.label COUNT
+.word     4       ; 0004: Count
+.label TABLE      
+.word    39       ; 0039: Table
+.word    25       ; 0025:
+.word     4       ; 0004:
+.word    98       ; 0098:
+.word    17       ; 0017:
+.label ADD_INSTR
+.word     E       ; 000E: Add_instr
+.end
+; ANSWER = 10F (271)_10

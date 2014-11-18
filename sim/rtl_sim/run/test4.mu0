@@ -1,0 +1,15 @@
+; test4.mu0
+; Source: http://eng.anu.edu.au/courses/ENGN3213/Documents/CodeSamples/
+;         VERILOG/PROGRAMS
+ACC<= [VAL]     ; LDA 005: load mem loc 005 into acc
+ACC+  [ONE]     ; ADD 006: add contents of mem loc 006 to acc
+ACC=> [ZERO]    ; STO 007: store result in mem loc 007
+ACC<= [ZERO]    ; LDA 007: load mem loc 007 into acc
+STOP            ; STP    : stop
+.label VAL
+.word   A       ; 000A
+.label ONE     
+.word   1       ; 0001
+.label ZERO
+.word   0       ; 0000
+.end

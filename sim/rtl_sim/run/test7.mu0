@@ -1,0 +1,7 @@
+; test7.mu0
+; Source: http://eng.anu.edu.au/courses/ENGN3213/Documents/CodeSamples/
+;         VERILOG/PROGRAMS
+PC<= AA         ; JMP AA
+.label AA
+STOP            ; STP
+.end

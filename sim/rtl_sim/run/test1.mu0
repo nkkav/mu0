@@ -1,0 +1,12 @@
+; test1.mu0
+ACC<= [TEN]       ; LDA 4
+ACC+  [ONE]       ; ADD 5
+ACC=> [ZERO]      ; STO 6
+STOP              ; STP
+.label TEN
+.word     A       ; 000A:
+.label ONE
+.word     1       ; 0001:
+.label ZERO
+.word     0       ; 0000:
+.end

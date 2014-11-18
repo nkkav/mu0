@@ -1,0 +1,14 @@
+; test5.mu0
+; Source: http://eng.anu.edu.au/courses/ENGN3213/Documents/CodeSamples/
+;         VERILOG/PROGRAMS
+ACC<= [VAL_BB]   ; LDA 006
+ACC+  [VAL_ABC]  ; ADD 007
+ACC-  [VAL_ABC]  ; SUB 007
+ACC=> [VAL_ABC]  ; STO 007
+ACC<= [VAL_ABC]  ; LDA 007
+STOP             ; STP
+.label VAL_BB
+.word   BB       ; 00BB
+.label VAL_ABC     
+.word  ABC       ; 0ABC
+.end

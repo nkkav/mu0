@@ -1,0 +1,10 @@
+; test9.mu0
+; Source: http://eng.anu.edu.au/courses/ENGN3213/Documents/CodeSamples/
+;         VERILOG/PROGRAMS
+ACC<= [ONE]       ; LDA 3
+IF!=0 PC<= ADDR2  ; JNE 2
+.label ADDR2
+STOP              ; STP
+.label ONE
+.word     1       ; 0001:
+.end

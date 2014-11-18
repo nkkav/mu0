@@ -1,0 +1,15 @@
+; test2.mu0
+; Source: http://eng.anu.edu.au/courses/ENGN3213/Documents/CodeSamples/
+;         VERILOG/PROGRAMS
+.label START
+ACC<= [FOUR]      ; LDA 6
+ACC-  [ONE]       ; SUB 7
+ACC=> [FOUR]      ; STO 6
+ACC<= [FOUR]      ; LDA 6
+IF+VE PC<= START  ; JGE 0
+STOP              ; STP
+.label FOUR 
+.word     4       ; 0004:
+.label ONE
+.word     1       ; 0001:
+.end
