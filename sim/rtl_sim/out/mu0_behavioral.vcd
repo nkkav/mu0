@@ -1,211 +1,81 @@
-$comment
-	File created using the following command:
-		vcd file mu0_behavioral.vcd -dumpports -unique
-$end
 $date
-	Thu Nov 13 22:40:01 2014
+	Tue Nov 18 20:36:24 2014
 $end
 $version
-	dumpports ModelSim Version 10.1d
+	Icarus Verilog
 $end
 $timescale
 	1ps
 $end
 $scope module mu0_tb $end
+$var wire 16 ! pc [15:0] $end
+$var wire 16 " ir [15:0] $end
+$var wire 16 # acc [15:0] $end
+$var reg 1 $ clk $end
+$var reg 1 % reset $end
 $scope module uut $end
-$var port 1 <0 clk $end
-$var port 1 <1 reset $end
-$var port 1 <2 pc [15] $end
-$var port 1 <3 pc [14] $end
-$var port 1 <4 pc [13] $end
-$var port 1 <5 pc [12] $end
-$var port 1 <6 pc [11] $end
-$var port 1 <7 pc [10] $end
-$var port 1 <8 pc [9] $end
-$var port 1 <9 pc [8] $end
-$var port 1 <10 pc [7] $end
-$var port 1 <11 pc [6] $end
-$var port 1 <12 pc [5] $end
-$var port 1 <13 pc [4] $end
-$var port 1 <14 pc [3] $end
-$var port 1 <15 pc [2] $end
-$var port 1 <16 pc [1] $end
-$var port 1 <17 pc [0] $end
-$var port 1 <18 ir [15] $end
-$var port 1 <19 ir [14] $end
-$var port 1 <20 ir [13] $end
-$var port 1 <21 ir [12] $end
-$var port 1 <22 ir [11] $end
-$var port 1 <23 ir [10] $end
-$var port 1 <24 ir [9] $end
-$var port 1 <25 ir [8] $end
-$var port 1 <26 ir [7] $end
-$var port 1 <27 ir [6] $end
-$var port 1 <28 ir [5] $end
-$var port 1 <29 ir [4] $end
-$var port 1 <30 ir [3] $end
-$var port 1 <31 ir [2] $end
-$var port 1 <32 ir [1] $end
-$var port 1 <33 ir [0] $end
-$var port 1 <34 acc [15] $end
-$var port 1 <35 acc [14] $end
-$var port 1 <36 acc [13] $end
-$var port 1 <37 acc [12] $end
-$var port 1 <38 acc [11] $end
-$var port 1 <39 acc [10] $end
-$var port 1 <40 acc [9] $end
-$var port 1 <41 acc [8] $end
-$var port 1 <42 acc [7] $end
-$var port 1 <43 acc [6] $end
-$var port 1 <44 acc [5] $end
-$var port 1 <45 acc [4] $end
-$var port 1 <46 acc [3] $end
-$var port 1 <47 acc [2] $end
-$var port 1 <48 acc [1] $end
-$var port 1 <49 acc [0] $end
+$var wire 1 $ clk $end
+$var wire 1 % reset $end
+$var reg 16 & acc [15:0] $end
+$var reg 12 ' address [11:0] $end
+$var reg 16 ( ir [15:0] $end
+$var reg 4 ) opcode [15:12] $end
+$var reg 16 * pc [15:0] $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
 #0
-$dumpports
-pX 6 6 <17
-pX 6 6 <16
-pX 6 6 <15
-pX 6 6 <14
-pX 6 6 <13
-pX 6 6 <12
-pX 6 6 <11
-pX 6 6 <10
-pX 6 6 <9
-pX 6 6 <8
-pX 6 6 <7
-pX 6 6 <6
-pX 6 6 <5
-pX 6 6 <4
-pX 6 6 <3
-pX 6 6 <2
-pX 6 6 <33
-pX 6 6 <32
-pX 6 6 <31
-pX 6 6 <30
-pX 6 6 <29
-pX 6 6 <28
-pX 6 6 <27
-pX 6 6 <26
-pX 6 6 <25
-pX 6 6 <24
-pX 6 6 <23
-pX 6 6 <22
-pX 6 6 <21
-pX 6 6 <20
-pX 6 6 <19
-pX 6 6 <18
-pX 6 6 <49
-pX 6 6 <48
-pX 6 6 <47
-pX 6 6 <46
-pX 6 6 <45
-pX 6 6 <44
-pX 6 6 <43
-pX 6 6 <42
-pX 6 6 <41
-pX 6 6 <40
-pX 6 6 <39
-pX 6 6 <38
-pX 6 6 <37
-pX 6 6 <36
-pX 6 6 <35
-pX 6 6 <34
-pU 0 6 <1
-pD 6 0 <0
+$dumpvars
+bx *
+bx )
+bx (
+bx '
+bx &
+1%
+0$
+bx #
+bx "
+bx !
 $end
 #5000
-pU 0 6 <0
-pL 6 0 <49
-pL 6 0 <48
-pL 6 0 <47
-pL 6 0 <46
-pL 6 0 <45
-pL 6 0 <44
-pL 6 0 <43
-pL 6 0 <42
-pL 6 0 <41
-pL 6 0 <40
-pL 6 0 <39
-pL 6 0 <38
-pL 6 0 <37
-pL 6 0 <36
-pL 6 0 <35
-pL 6 0 <34
-pL 6 0 <17
-pL 6 0 <16
-pL 6 0 <15
-pL 6 0 <14
-pL 6 0 <13
-pL 6 0 <12
-pL 6 0 <11
-pL 6 0 <10
-pL 6 0 <9
-pL 6 0 <8
-pL 6 0 <7
-pL 6 0 <6
-pL 6 0 <5
-pL 6 0 <4
-pL 6 0 <3
-pL 6 0 <2
-pL 6 0 <33
-pL 6 0 <32
-pL 6 0 <31
-pL 6 0 <30
-pL 6 0 <29
-pL 6 0 <28
-pL 6 0 <27
-pL 6 0 <26
-pL 6 0 <25
-pL 6 0 <24
-pL 6 0 <23
-pL 6 0 <22
-pL 6 0 <21
-pL 6 0 <20
-pL 6 0 <19
-pL 6 0 <18
-pH 0 6 <47
+b0 '
+b0 )
+b11 #
+b11 &
+b0 !
+b0 *
+b0 "
+b0 (
+1$
 #10000
-pD 6 0 <1
-pD 6 0 <0
+0$
+0%
 #15000
-pU 0 6 <0
-pH 0 6 <17
-pH 0 6 <31
-pH 0 6 <48
-pL 6 0 <47
-pH 0 6 <46
+b1 #
+b1 &
+b11 '
+b1 !
+b1 *
+b11 "
+b11 (
+1$
 #20000
-pD 6 0 <0
+0$
 #25000
-pU 0 6 <0
-pL 6 0 <17
-pH 0 6 <16
-pH 0 6 <33
-pH 0 6 <20
-pH 0 6 <49
+b10 '
+b110 )
+b10 !
+b10 *
+b110000000000010 "
+b110000000000010 (
+1$
 #30000
-pD 6 0 <0
+0$
 #35000
-pU 0 6 <0
-pH 0 6 <17
-pL 6 0 <33
-pH 0 6 <32
-pH 0 6 <21
-pL 6 0 <20
+b0 '
+b111 )
+b111000000000000 "
+b111000000000000 (
+1$
 #40000
-pD 6 0 <0
-#45000
-pU 0 6 <0
-pL 6 0 <32
-pL 6 0 <31
-pH 0 6 <20
-pH 0 6 <19
-$vcdclose
-#50000
-$end
+0$

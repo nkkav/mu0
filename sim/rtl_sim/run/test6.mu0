@@ -2,30 +2,30 @@
 ; Source: http://eng.anu.edu.au/courses/ENGN3213/Documents/CodeSamples/
 ;         VERILOG/PROGRAMS
 .label START
-ACC<= [TOTAL]     ; LDA total
-ACC+  [TABLE]     ; ADD Table
-ACC=> [TOTAL]     ; STO total
-ACC<= [ADD_INSTR] ; LDA Add_instr
-ACC+  [ONE]       ; ADD One
-ACC=> [ADD_INSTR] ; STO Add_instr
-ACC<= [COUNT]     ; LDA Count
-ACC-  [ONE]       ; SUB One
-ACC=> [COUNT]     ; STO Count
-IF+VE PC<= START  ; JGE 0
-STOP              ; STP
+ACC<= [TOTAL]     ; [000] LDA total
+ACC+  [TABLE]     ; [001] ADD Table
+ACC=> [TOTAL]     ; [002] STO total
+ACC<= [ADD_INSTR] ; [003] LDA Add_instr
+ACC+  [ONE]       ; [004] ADD One
+ACC=> [ADD_INSTR] ; [005] STO Add_instr
+ACC<= [COUNT]     ; [006] LDA Count
+ACC-  [ONE]       ; [007] SUB One
+ACC=> [COUNT]     ; [008] STO Count
+IF+VE PC<= START  ; [009] JGE 0
+STOP              ; [00A] STP
 .label TOTAL
-.word     0       ; 0000: total
+.word     0       ; [00B] 0000: total
 .label ONE
-.word     1       ; 0001: One
+.word     1       ; [00C] 0001: One
 .label COUNT
-.word     4       ; 0004: Count
+.word     4       ; [00D] 0004: Count
 .label TABLE      
-.word    39       ; 0039: Table
-.word    25       ; 0025:
-.word     4       ; 0004:
-.word    98       ; 0098:
-.word    17       ; 0017:
+.word    39       ; [00E] 0039: Table
+.word    25       ; [00F] 0025:
+.word     4       ; [010] 0004:
+.word    98       ; [011] 0098:
+.word    17       ; [012] 0017:
 .label ADD_INSTR
-.word     E       ; 000E: Add_instr
+.word     E       ; [013] 000E: Add_instr
 .end
 ; ANSWER = 10F (271)_10

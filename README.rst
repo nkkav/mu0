@@ -12,11 +12,16 @@
 +-------------------+----------------------------------------------------------+
 | **Website**       | http://www.nkavvadias.com                                |
 +-------------------+----------------------------------------------------------+
-| **Release Date**  | 17 November 2014                                         |
+| **Release Date**  | 18 November 2014                                         |
 +-------------------+----------------------------------------------------------+
-| **Version**       | 0.0.1                                                    |
+| **Version**       | 0.0.2                                                    |
 +-------------------+----------------------------------------------------------+
 | **Rev. history**  |                                                          |
++-------------------+----------------------------------------------------------+
+|        **v0.0.2** | 2014-11-18                                               |
+|                   |                                                          |
+|                   | Added more test programs/listings; minor documentation   |
+|                   | update.                                                  |
 +-------------------+----------------------------------------------------------+
 |        **v0.0.1** | 2014-11-17                                               |
 |                   |                                                          |
@@ -192,12 +197,12 @@ The ``mu0`` distribution includes the following files:
 | mti-vhdl.sh           | Bash shell script for running a Modelsim simulation  |
 |                       | of the VHDL model.                                   |
 +-----------------------+------------------------------------------------------+
-| multiply.lst          | Hexadecimal listing/program generated from           |
+| multiply.lst          | Hexadecimal listing generated from                   |
 |                       | ``multiply.mu0`` using the ``mu0`` compiler.         |
 +-----------------------+------------------------------------------------------+
 | multiply.mu0          | Multiplication test program.                         |
 +-----------------------+------------------------------------------------------+
-| odd_even.lst          | Hexadecimal listing/program generated from           |
+| odd_even.lst          | Hexadecimal listing generated from                   |
 |                       | ``odd_even.mu0`` using the ``mu0`` compiler.         |
 +-----------------------+------------------------------------------------------+
 | odd_even.mu0          | Test program for finding even numbers in a list.     |
@@ -205,9 +210,9 @@ The ``mu0`` distribution includes the following files:
 | prog.lst              | The listing/program file currently visible to the    |
 |                       | processor models.                                    |
 +-----------------------+------------------------------------------------------+
-| test1.lst             | Sample test listing/program.                         |
+| test\*.lst            | Sample test programs.                                |
 +-----------------------+------------------------------------------------------+
-| test2.lst             | Another sample test listing/program.                 |
+| test\*.mu0            | Sample test listings.                                |
 +-----------------------+------------------------------------------------------+
 | /sim/rtl_sim/run      | Verilog HDL sources for running RTL simulations      |
 +-----------------------+------------------------------------------------------+
