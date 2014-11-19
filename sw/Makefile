@@ -1,7 +1,7 @@
 ifndef CC
 CC = $(CC)
 endif
-#CFLAGS=-Wall -O2
+#CFLAGS=-Wall -O2 -DINTERACTIVE
 CFLAGS=-Wall -O2 -DHEX
 INCLUDES= -I.
 LFLAGS= -L.

@@ -1,10 +1,9 @@
-// http://eng.anu.edu.au/courses/ENGN3213/Labs/clab3.pdf
 .text:
-0000 0008 // load (LDA) the contents of memory adddress 4 into the ACC
-0002 200a // add (ADD) the contents of memory address 5 to that in the ACC
-0004 100c // store (STO) the contents of the ACC in memory location 6
-0006 7000 // STOP
+0000 0008
+0002 200a
+0004 100c
+0006 7000
 .data:
-0008 000A // data stored in memory location 4 (byte: 0x8)
-000A 0001 // data stored in memory location 5 (byte: 0xa)
-000C 0000 // data stored in memory location 6 (byte: 0xc)
+0008 000a
+000a 0001
+000c 0000

@@ -7,6 +7,8 @@
  * Version 1.01, 3 March 1995 - Tidied up for Project
  * Version 2.00, 14 November 2014 - Modifications by 
  *   Nikolaos Kavvadias <nikos@nkavvadias.com>
+ * Version 2.01, 19 November 2014 - Non-interactive mode 
+ *   and ArchC hex file generation by Nikolaos Kavvadias 
  *
  * (C) 1994, 1995 Benjy (Soft Eng A2)
  */
@@ -15,6 +17,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>  /* exit() */
 
 /* Number of bits for a memory address. */
 #ifndef MAXDEPTH
@@ -34,26 +37,107 @@ struct {
          address address;
        } labels[128];
 
+/* Configuration variables for non-interactive mode. */
+      
+int enable_binary=1;
+#ifndef INTERACTIVE
+int enable_listing=0, enable_hex=0;
+int text_seg_flag=0, data_seg_flag=0;
+#endif
+
 /* Function prototypes */
 
 int compile(int pass,char *source_filename,char *dest_filename);
 int readline(FILE *file,char *string);
 int getvalue (char *operand);
 void fillzeroes(FILE *file, int addr);
+void increment(int *addr);
+static void print_usage();
 int main();
 
-int main()
+#ifndef INTERACTIVE
+/* print_usage:
+ * Print usage instructions for the "compile_mu0" program.
+ */
+static void print_usage()
+{
+  printf("* Usage:\n");
+  printf("* $ ./compile_mu0 [options] -i <infile> -o <outfile>\n");
+  printf("* \n");
+  printf("* Options:\n");
+  printf("*   -h:           Print this help.\n");
+  printf("*   -b:           Generate binary file for the MU0 debugger (default).\n");
+  printf("*   -l:           Generate a listing file for loading in HDL testbenches.\n");
+  printf("*   -x:           Generate an ArchC hexadecimal dump for SystemC simulation.\n");
+  printf("*   -i <infile>:  Specify the input MU0 program file.\n");
+  printf("*   -o <outfile>: Specify the output MU0 listing/dump file.\n");
+  printf("* \n");
+  printf("* For further information, please refer to the website:\n");
+  printf("* http://www.nkavvadias.com\n\n");
+}
+#endif
+
+int main(int argc, char *argv[])
 {
   char source_filename[50],
        dest_filename[50];
 
   printf ("COMPILE_MU0 - companion program to EXECUTE_MU0\n");
-  printf ("(C) 1994 Benjy\n\n");
+  printf ("(C) 1994 Benjy\n");
+  printf ("(~) 2014 Nikolaos Kavvadias (added non-interactive mode)\n\n");
+#ifdef INTERACTIVE
   printf ("Please enter source filename > ");  /* Get filenames */
   scanf ("%s",source_filename);
   printf ("Please enter destination filename > ");
   scanf ("%s",dest_filename);
-  
+#else  
+  int i;
+
+  /* Read input arguments. */
+  if (argc < 2) {
+    print_usage();
+    exit(1);
+  }
+
+  for (i = 1; i < argc; i++) {
+    if (strcmp("-h", argv[i]) == 0) {
+      print_usage();
+      exit(1);
+    }
+    else if (strcmp("-b", argv[i]) == 0) {
+      enable_binary  = 1;
+      enable_listing = 0;
+      enable_hex     = 0;
+    }
+    else if (strcmp("-l", argv[i]) == 0) {
+      enable_binary  = 0;
+      enable_listing = 1;
+      enable_hex     = 0;
+    }
+    else if (strcmp("-x", argv[i]) == 0) {
+      enable_binary  = 0;
+      enable_listing = 0;
+      enable_hex     = 1;
+    }
+    else if (strcmp("-i", argv[i]) == 0) {
+      if ((i+1) < argc) {
+        i++;
+        strcpy(source_filename, argv[i]);
+      }
+    }
+    else if (strcmp("-o", argv[i]) == 0) {
+      if ((i+1) < argc) {
+        i++;
+        strcpy(dest_filename, argv[i]);
+      }
+    }
+    else {
+      fprintf(stderr, "Error: Unknown command-line option: %s.\n", argv[i]);
+      exit(1);      
+    }
+  }
+#endif
+
   printf ("\nCommencing compilation...\n\n");
 
   if (compile(1,source_filename,dest_filename))   /* Pass 1 */
@@ -70,7 +154,6 @@ int compile(int pass,char *source_filename,char *dest_filename)
 {
   FILE *infile,
        *outfile;
-  int i;
   int loop,
       nextlabel=0,
       address=0;
@@ -120,27 +203,38 @@ int compile(int pass,char *source_filename,char *dest_filename)
 
     if (!strcmp(command,".word")) {   /* .word pseudo-operation */
       if (pass==2) {
-        int byte;
+        /* Print .data segment annotation for ArchC hex file on first occurence 
+         * of a .word macro-assembler directive.
+         */         
+        if ((enable_hex == 1) && (data_seg_flag == 0)) {
+          fprintf(outfile, ".data:\n");
+          data_seg_flag = 1;
+        }
+        int byte;        
         sscanf (operand,"%x",&byte);
         printf ("%04X",byte);   /* Display the word */
-        /* Generate hexadecimal listing instead. */
-#ifdef HEX
-        fprintf(outfile, "%04x\n", byte);
-#else        
-        fputc(byte/256,outfile);  /* Output the word to file */
-        fputc(byte%256,outfile);
-#endif
+        /* Generate binary, listing or ArchC hexadecimal file output. */
+        if (enable_listing == 1) {
+          fprintf(outfile, "%04x\n", byte);
+        }
+        else if (enable_hex == 1) {
+          fprintf(outfile, "%04x %04x\n", address, byte);
+        }
+        else {                    /* enable_binary == 1 or default. */        
+          fputc(byte/256,outfile);  /* Output the word to file */
+          fputc(byte%256,outfile);
+        }
       }
-      address++;
+      increment(&address);
     }
  
     if (!strcmp(command,".end")) {    /* .end, end of file marker */
       printf ("\nEnd of file marker, pass %d complete\n\n",pass);
       fclose(infile);
-      if (pass==2) { 
-#ifdef HEX      
-        fillzeroes(outfile, address);
-#endif
+      if (pass==2) {
+        if (enable_listing == 1) {
+          fillzeroes(outfile, address);
+        }
         fclose (outfile);
       }
       return(1);
@@ -166,9 +260,17 @@ int compile(int pass,char *source_filename,char *dest_filename)
           !strcmp(command,"IF!=0") ||
           !strcmp(command,"STOP"))
       {
-        address++;
+        increment(&address);
       }
     } else {     /* Pass 2, actually assemble. */
+      /* Print .text segment annotation for ArchC hex file on first occurence 
+       * of any assembler instruction during pass 2.
+       */         
+      if ((enable_hex == 1) && (text_seg_flag == 0)) {
+        fprintf(outfile, ".text:\n");
+        text_seg_flag = 1;
+      }    
+
       if (strcmp(command,".word") &&   /* Already done */
           strcmp(command,".end") &&
           strcmp(command,".label") &&
@@ -227,20 +329,25 @@ int compile(int pass,char *source_filename,char *dest_filename)
       printf ("%X%03X",opcode,value);     /* Display it on screen */
 
       byte=(opcode << 4) + (value >> 8);  /* Calculate first byte */
-      /* Generate hexadecimal listing instead. */
-#ifdef HEX
-      fprintf(outfile, "%02x", byte);
-#else              
-      fputc(byte,outfile);  /* And output it */
-#endif
+      /* Generate binary, listing or ArchC hexadecimal file output. */
+      if (enable_listing == 1) {
+        fprintf(outfile, "%02x", byte);
+      }
+      else if (enable_hex == 1) {
+        fprintf(outfile, "%04x %02x", address, byte);
+      }      
+      else {
+        fputc(byte,outfile);  /* And output it */
+      }
       byte=value & 0xFF;    /* Calculate second byte */
-      /* Generate hexadecimal listing instead. */
-#ifdef HEX
-      fprintf(outfile, "%02x\n", byte);
-#else              
-      fputc(byte,outfile);  /* And output it */
-#endif
-      address++;  /* Increment address */
+      /* Generate binary, listing or ArchC hexadecimal file output. */
+      if ((enable_listing == 1) || (enable_hex == 1)) {
+        fprintf(outfile, "%02x\n", byte);
+      } 
+      else {
+        fputc(byte,outfile);  /* And output it */
+      }
+      increment(&address);
     }
   }
   }
@@ -293,5 +400,16 @@ void fillzeroes(FILE *file, int addr)
   /* Fill unused addresses with zeroes (up to word 4095). */
   for (i = addr; i < (1<<MAXDEPTH); i++) {
     fprintf(file, "%04x\n", 0x0000);
+  }
+}
+
+void increment(int *addr)
+{
+  /* Increment the address by 2 for ArchC hex file, otherwise by 1. */
+  if (enable_hex == 1) {
+    *addr += 2;
+  }
+  else {
+    *addr += 1;
   }
 }

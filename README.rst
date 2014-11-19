@@ -12,11 +12,16 @@
 +-------------------+----------------------------------------------------------+
 | **Website**       | http://www.nkavvadias.com                                |
 +-------------------+----------------------------------------------------------+
-| **Release Date**  | 18 November 2014                                         |
+| **Release Date**  | 19 November 2014                                         |
 +-------------------+----------------------------------------------------------+
-| **Version**       | 0.0.2                                                    |
+| **Version**       | 0.0.3                                                    |
 +-------------------+----------------------------------------------------------+
 | **Rev. history**  |                                                          |
++-------------------+----------------------------------------------------------+
+|        **v0.0.3** | 2014-11-19                                               |
+|                   |                                                          |
+|                   | Extended the compiler/assembler to automatically produce |
+|                   | ArchC hexadecimal files; add non-interactive mode.       |
 +-------------------+----------------------------------------------------------+
 |        **v0.0.2** | 2014-11-18                                               |
 |                   |                                                          |
@@ -90,10 +95,12 @@ The following table illustrates the instruction set of the MU0.
 This distribution provides the following:
 
 - Behavioral VHDL and Verilog HDL models for the ``mu0``.
+- ArchC functional simulation model for the ``mu0``.
 - Compiler (assembler) and simulator/debugger for the ``mu0`` based on the 
   original work of user ``benjy``: http://everything2.com/title/MU0
 - Scripts for running VHDL simulations with GHDL or Modelsim.
 - Scripts for running Verilog HDL simulations with Icarus Verilog or Modelsim.
+- Various test files (``*.mu0``, ``*.lst``, ``*.hex``).
 
 Future releases will contain adapted synthesizable models, synthesis scripts 
 for Xilinx ISE/Vivado and YOSYS_ and more.
@@ -163,6 +170,9 @@ The ``mu0`` distribution includes the following files:
 +-----------------------+------------------------------------------------------+
 | /sim/archc/test       | Tests subdirectory                                   |
 +-----------------------+------------------------------------------------------+
+| gen-tests.sh          | Bash shell script for generating ArchC hexadecimal   |
+|                       | application files for the simulator.                 |
++-----------------------+------------------------------------------------------+
 | \*.hex                | ArchC hexadecimal application files for testing.     |
 +-----------------------+------------------------------------------------------+
 | /sim/rtl_sim          | RTL simulation files directory                       |
@@ -207,12 +217,13 @@ The ``mu0`` distribution includes the following files:
 +-----------------------+------------------------------------------------------+
 | odd_even.mu0          | Test program for finding even numbers in a list.     |
 +-----------------------+------------------------------------------------------+
-| prog.lst              | The listing/program file currently visible to the    |
-|                       | processor models.                                    |
+| prog.lst              | The listing file currently visible to the processor  |
+|                       | models. Its contents are preloaded to memory before  |
+|                       | simulation starts.                                   |
 +-----------------------+------------------------------------------------------+
-| test\*.lst            | Sample test programs.                                |
+| test\*.lst            | Sample test listings.                                |
 +-----------------------+------------------------------------------------------+
-| test\*.mu0            | Sample test listings.                                |
+| test\*.mu0            | Sample test programs.                                |
 +-----------------------+------------------------------------------------------+
 | /sim/rtl_sim/run      | Verilog HDL sources for running RTL simulations      |
 +-----------------------+------------------------------------------------------+
