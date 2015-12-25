@@ -2,15 +2,7 @@
 /*  File       : mu0_isa.ac
  *  Description: Instruction encodings and assembly formats.
  *  Author     : Nikolaos Kavvadias <nikos@nkavvadias.com>
- *
- *  Copyright (C) 2014 Nikolaos Kavvadias
- *
- *  Author affiliation:
- *    Dr. Nikolaos Kavvadias
- *    Independent Consultant -- Research Scientist
- *    Kornarou 12 Rd., Nea Ampliani,
- *    35100 Lamia, Greece
- *                                                             
+ * 
  *  Contact information for the ArchC team:                     
  *    The ArchC Team                                              
  *    Computer Systems Laboratory (LSC)                           

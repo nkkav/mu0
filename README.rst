@@ -10,7 +10,8 @@
 | **Title**         | mu0 (HDL models and programming tools for the educational|
 |                   | MU0 processor)                                           |
 +-------------------+----------------------------------------------------------+
-| **Author**        | Nikolaos Kavvadias (C) 2010, 2011, 2012, 2013, 2014      |
+| **Author**        | Nikolaos Kavvadias (C) 2010, 2011, 2012, 2013, 2014,     |
+|                   | 2015                                                     |
 +-------------------+----------------------------------------------------------+
 | **Contact**       | nikos@nkavvadias.com                                     |
 +-------------------+----------------------------------------------------------+
@@ -440,19 +441,6 @@ syntax variations.
 
 - ArchC (http://www.archc.org) installation (tested on Cygwin/Win7-64bit and 
   Linux) [required only for using the ArchC model]
-
-
-6. Contact
-==========
-
-You may contact me at:
-
-|  Nikolaos Kavvadias <nikos@nkavvadias.com>
-|  Independent Consultant
-|  http://www.nkavvadias.com
-|  Kornarou 12 Rd,
-|  35100 Lamia, Fthiotis
-|  Greece
 
 
 References
